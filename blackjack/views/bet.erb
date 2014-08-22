@@ -1,0 +1,8 @@
+<h1 class="hit"><%=  session[:name] %>, I see you brought $<%= session[:bet_amount].to_i %> to the table</h1>
+<h2 class="round">What would you like to bet?</h2>
+<form id="player_bet" action='/bet' method='post' class="navbar-form navbar-center">
+  <div class="form-group">
+    <input id="bet_amount" type="text" class="form-control center" name='bet' value= "" />
+  </div>
+  <input id="submitButtonId" value="Bet" type="submit" class="myButton" />
+</form>
