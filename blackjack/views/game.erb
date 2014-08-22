@@ -1,0 +1,65 @@
+<div id="game">
+	<div class="winner">
+		<% if session[:hit_or_stay] == nil %>
+		<h1 class='hit'>Welcome <%= session[:name] %>, would you like to hit or stay?</h1>
+		<% elsif session[:hit_or_stay] == "Stay" %>
+		<h1 class="hit">Dealer's Turn!</h1>
+		<%  elsif session[:hit_or_stay] == "Hit" %>
+		<h1 class='hit'><%= session[:name] %> what would you like to do next?</h1>
+		<% end %>
+	</div>
+	<div class="all_cards well">
+		<div class ="center_cards">
+			<div class="deck well">
+				<p class="card_titles">
+					Deck
+				</p>
+				<%= show_deck %>
+			</div>
+			<div class="player_cards well">
+				<p class="card_titles">
+					<%= session[:name] %>'s hand:
+				</p>
+				<% session[:player_cards].each do |card| %>
+				<%= show_cards(card) %>
+				<% end %>
+				<p class="total_titles"><%= session[:name] %>'s Total:
+					<%= player_card_value(session[:player_cards]) %>
+				</p>
+				<%  if  session[:hit_or_stay] != "Stay" %>
+				<form id="player_hit" action='/game/player/hit' method='post' class="navbar-form navbar-center">
+					<div class="buttons">
+						<input name="hit_or_stay" value="Hit" type="submit" class="myButton" />
+					</div>
+				</form>
+				<form id="player_stay" action='/game/player/stay' method='post' class="navbar-form navbar-center">
+					<div class="buttons">
+						<input name="hit_or_stay" value="Stay" type="submit" class="myButton" />
+					</div>
+				</form>
+				<% end %>
+			</div>
+			<div class="dealer_cards well">
+				<p class="card_titles">
+					Dealer's hand:
+				</p>
+				<% session[:dealer_cards].each do |card| %>
+				<% if card == session[:dealer_cards][0] %>
+				<img class='cards' src='images/cards/cover.jpg' />
+				<% else %>
+				<%= show_cards(card) %>
+				<% end %>
+				<% end %>
+
+				<% if  session[:hit_or_stay] == "Stay"  %>
+				<form id="dealer_hit" action='/game/dealer/hit' method='post' class="navbar-form navbar-center">
+					<div class="dealer_button">
+						<input name="hit_or_stay" value="See Cards" type="submit" class="myButton" />
+					</div>
+				</form>
+				<% end %>
+				<br />
+			</div>
+		</div>
+	</div>
+</div>

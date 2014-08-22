@@ -1,0 +1,23 @@
+<h1 class="hit">
+  What is your name?
+</h1>
+<form id="name" action='/name' method='post' class="navbar-form navbar-center">
+  <div class="form-group">
+    <label for="Name">
+      Name:
+    </label>
+    <input type="text" class="form-control center" id="text_field" name='name' value= "" />
+  </div>
+  <input id="submitButtonId" value="Submit" type="submit" class="myButton" />
+</form>
+
+<p>
+  The deck is ready!
+</p>
+<br />
+<br />
+<div class="all_cards well">
+  <div class ="center_cards">
+  <%= show_deck %>
+  </div>
+</div>

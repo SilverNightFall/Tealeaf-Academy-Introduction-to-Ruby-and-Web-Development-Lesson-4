@@ -1,0 +1,214 @@
+body {
+  color: #222514;
+  padding-top: 50px;
+}
+
+div.container {
+  padding-top: 35px;
+  margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    text-align: center;
+}
+
+.nav{
+  padding: 0 20px 0 20px;
+}
+
+.nav>li>a:hover, .nav>li>a:focus, .nav>li>a {
+  background-color: #C1BB6D;
+  color: #222514;
+}
+
+.nav>li {
+  font-weight: bold;
+  font-size: 26px;
+  letter-spacing: 2px;
+  width: 200px;
+  outline-style: ridge;
+  outline-color: #AAC0D7;
+  text-align: center;
+  margin-right: 20px;
+  float: left;
+}
+
+.nav {
+  background-color: #547443;
+}
+
+.nav>li:hover, .nav>li:focus {
+  background-color: #C1BB6D;
+  outline-style: ridge;
+  outline-color: #A56878;
+}
+
+.myButton {
+  -moz-box-shadow: 0px 10px 14px -7px #aac0d7;
+  -webkit-box-shadow: 0px 10px 14px -7px #aac0d7;
+  box-shadow: 0px 10px 14px -7px #aac0d7;
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #a56878), color-stop(1, #c1bb6d));
+  background:-moz-linear-gradient(top, #a56878 5%, #c1bb6d 100%);
+  background:-webkit-linear-gradient(top, #a56878 5%, #c1bb6d 100%);
+  background:-o-linear-gradient(top, #a56878 5%, #c1bb6d 100%);
+  background:-ms-linear-gradient(top, #a56878 5%, #c1bb6d 100%);
+  background:linear-gradient(to bottom, #a56878 5%, #c1bb6d 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a56878', endColorstr='#c1bb6d',GradientType=0);
+  background-color:#a56878;
+  -moz-border-radius:8px;
+  -webkit-border-radius:8px;
+  border-radius:8px;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:arial;
+  font-size:16px;
+  font-weight:bold;
+  padding: 4px 23px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #547443;
+}
+.myButton:hover {
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c1bb6d), color-stop(1, #a56878));
+  background:-moz-linear-gradient(top, #c1bb6d 5%, #a56878 100%);
+  background:-webkit-linear-gradient(top, #c1bb6d 5%, #a56878 100%);
+  background:-o-linear-gradient(top, #c1bb6d 5%, #a56878 100%);
+  background:-ms-linear-gradient(top, #c1bb6d 5%, #a56878 100%);
+  background:linear-gradient(to bottom, #c1bb6d 5%, #a56878 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c1bb6d', endColorstr='#a56878',GradientType=0);
+  background-color:#c1bb6d;
+}
+.myButton:active {
+  position:relative;
+  top:1px;
+}
+
+label {
+  font-size: 24px;
+  padding-right: 15px;
+}
+div.container p, div.winner {
+  font-size: 24px;
+  font-weight: bold
+}
+
+div.winner_output h1, h1.hit{
+  color: #A56878;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+div.buttons button {
+  margin-left: 20px;
+  padding:5px 20px;
+  width: 90px;
+  font-size: 20px;
+}
+
+div.dealer_button button {
+  margin-left: 20px;
+  padding:5px 20px;
+  width: 150px;
+  font-size: 20px;
+}
+
+img.cards {
+   border:2px solid #000000;
+   -webkit-border-radius: 10px 10px 10px 10px;
+   border-radius: 10px 10px 10px 10px;
+   padding: 7px;
+   margin-right: 10px;
+   width: 116px;
+    height: 193px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cards {
+  background-color: #ffffff;
+}
+
+div.player_cards {
+  float:left;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  height: 400px;
+}
+
+div.dealer_cards {
+  float:left;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+}
+
+div.deck {
+  float:left;
+  margin-bottom: 30px;
+}
+
+img.deck {
+  width: 146px;
+    height: 223px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p {
+  text-align: center;
+}
+
+p.card_titles {
+  margin-left: -30px;
+}
+
+p.total_titles {
+  margin-top: 10px;
+}
+
+h1 {
+  margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    text-align: center;
+}
+
+div.another_round {
+  float: center;
+  clear:both;
+}
+
+h2.round {
+  color: #547443;
+  font-size: 35px;
+}
+
+div.all_cards.well {
+  background: #547443;
+}
+div.all_cards .well {
+  height: 450px;
+  margin-left: auto;
+    display: inline-block;
+  margin-right: 40px;
+}
+
+div.center_cards {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.player_cards.well {
+  background: #D4DFEB;
+}
+
+div.dealer_cards.well {
+  background: #E6E3C4;
+}
+
+div.deck.well {
+  background: #E4D1D6;
+}
