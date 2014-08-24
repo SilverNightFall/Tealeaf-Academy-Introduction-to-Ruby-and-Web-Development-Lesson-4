@@ -212,3 +212,21 @@ div.dealer_cards.well {
 div.deck.well {
   background: #E4D1D6;
 }
+
+.alert-box {
+color: #A56878;
+background-color: #E6E3C4;
+outline-style: ridge;
+outline-color: #AAC0D7;
+display: inline-block;
+width: 50%;
+font-weight: bold;
+font-size: 20px;
+letter-spacing: 2px;
+}
+.alert {
+padding: 7px;
+margin-bottom: 20px;
+border: 1px solid transparent;
+border-radius: 4px;
+}'

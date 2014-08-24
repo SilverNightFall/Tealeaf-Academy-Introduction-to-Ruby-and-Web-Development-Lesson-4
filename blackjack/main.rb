@@ -6,6 +6,7 @@ set :sessions, true
 
 helpers do
 
+  INITIAL_POT_AMOUNT = 500
   BLACKJACK_AMOUNT = 21
   DEALER_MIN = 17
   ACE_VALUE = 11
@@ -19,78 +20,76 @@ helpers do
     session[:deck].shuffle!
   end
 
- def initialize_session
-  new_deck
-  session[:player_cards] = nil
-  session[:dealer_cards] = nil
-  session[:player_cards] = []
-  session[:dealer_cards] = []
-  session[:player_cards] << session[:deck].pop
-  session[:player_cards] << session[:deck].pop
-  session[:dealer_cards] << session[:deck].pop
-  session[:dealer_cards] << session[:deck].pop
-end
+  def initialize_session
+    new_deck
+    session[:player_cards] = nil
+    session[:dealer_cards] = nil
+    session[:player_cards] = []
+    session[:dealer_cards] = []
+    session[:player_cards] << session[:deck].pop
+    session[:player_cards] << session[:deck].pop
+    session[:dealer_cards] << session[:deck].pop
+    session[:dealer_cards] << session[:deck].pop
+  end
 
-def show_deck
-  "<img class='deck' src='/images/cards/card_deck.png' alt='Deck' />"
-end
+  def show_deck
+    "<img class='deck' src='/images/cards/card_deck.png' alt='Deck' />"
+  end
 
-def show_cards(card)
-  rank = card[0]
-  suit = card[1]
-  "<img class='cards' src='/images/cards/#{suit}_#{rank}.jpg' />"
-end
+  def show_cards(card)
+    rank = card[0]
+    suit = card[1]
+    "<img class='cards' src='/images/cards/#{suit}_#{rank}.jpg' />"
+  end
 
-def player_card_value(blackjack_players)
-  card_values = 0
-  players_cards = blackjack_players.map { |cards| cards[0]}
-  players_cards.each do |card|
-    if card == "Ace"
-      card_values += ACE_VALUE
-    elsif card.to_i == 0
-      card_values += FACE_CARD_VALUE
-    else
-      card_values += card.to_i
+  def player_card_value(blackjack_players)
+    card_values = 0
+    players_cards = blackjack_players.map { |cards| cards[0]}
+    players_cards.each do |card|
+      if card == "Ace"
+        card_values += ACE_VALUE
+      elsif card.to_i == 0
+        card_values += FACE_CARD_VALUE
+      else
+        card_values += card.to_i
+      end
+    end
+    players_cards.select { |cards| cards == "Ace" }.count.times do
+      if card_values > BLACKJACK_AMOUNT
+        card_values -= FACE_CARD_VALUE
+      end
+    end
+    card_values
+  end
+
+  def winner?
+    if player_winner?  || dealer_winner? || no_winner?  || dealer_busted?  || player_busted?
+      @show_player_hit_stay = false
+      @show_dealer_hit_stay = false
+      @new_player_intro = false
+      @dealer_turn_intro = false
+      @player_next_intro = false
     end
   end
-  players_cards.select { |cards| cards == "Ace" }.count.times do
-    if card_values > BLACKJACK_AMOUNT
-      card_values -= FACE_CARD_VALUE
-    end
-  end
-  card_values
-end
 
-def winner?
-   if player_winner?  || dealer_winner? || no_winner?  || dealer_busted?  || player_busted? 
-  @show_player_hit_stay = false
-  @show_dealer_hit_stay = false
-  @new_player_intro = false
-  @dealer_turn_intro = false
-  @player_next_intro = false
-  @play_again = true
-
+  def dealer_winner?
+    @dealer_winner = "<h1 class='hit'>Dealer won!<br /></h1>"
+    if player_card_value(session[:dealer_cards]) == BLACKJACK_AMOUNT
+     return @dealer_winner
+   elsif player_card_value(session[:dealer_cards]) > player_card_value(session[:player_cards]) && player_card_value(session[:dealer_cards]) < BLACKJACK_AMOUNT && player_card_value(session[:dealer_cards]) >=  DEALER_MIN && session[:hit_or_stay] == "Stay"
+     return @dealer_winner
+   elsif player_card_value(session[:dealer_cards]) < player_card_value(session[:player_cards]) && player_card_value(session[:player_cards]) > BLACKJACK_AMOUNT && player_card_value(session[:dealer_cards]) >=  DEALER_MIN && session[:hit_or_stay] == "Stay"
+     return @dealer_winner
+   end
  end
-end
 
-def dealer_winner?
-  @dealer_winner = "<h1 class='hit'>Dealer won!<br /></h1>"
-  if player_card_value(session[:dealer_cards]) == BLACKJACK_AMOUNT
-   return @dealer_winner
- elsif player_card_value(session[:dealer_cards]) > player_card_value(session[:player_cards]) && player_card_value(session[:dealer_cards]) < BLACKJACK_AMOUNT && player_card_value(session[:dealer_cards]) >=  DEALER_MIN && session[:hit_or_stay] == "Stay"
-   return @dealer_winner
- elsif player_card_value(session[:dealer_cards]) < player_card_value(session[:player_cards]) && player_card_value(session[:player_cards]) > BLACKJACK_AMOUNT && player_card_value(session[:dealer_cards]) >=  DEALER_MIN && session[:hit_or_stay] == "Stay"
-   return @dealer_winner
- end
-end
-
-def player_winner?
+ def player_winner?
   @player_winner =  "<h1 class='hit'> #{session[:name]}, you won!<br /> </h1>"
   if player_card_value(session[:player_cards]) == BLACKJACK_AMOUNT
     return @player_winner
-  elsif player_card_value(session[:player_cards]) > player_card_value(session[:dealer_cards]) && player_card_value(session[:player_cards]) <= BLACKJACK_AMOUNT && player_card_value(session[:dealer_cards]) >=  DEALER_MIN
+  elsif player_card_value(session[:player_cards]) > player_card_value(session[:dealer_cards]) && player_card_value(session[:player_cards]) <= BLACKJACK_AMOUNT && player_card_value(session[:dealer_cards]) >=  DEALER_MIN && session[:hit_or_stay] == "Stay"
     return @player_winner
-  elsif  player_card_value(session[:player_cards]) < player_card_value(session[:dealer_cards]) && player_card_value(session[:dealer_cards]) > BLACKJACK_AMOUNT
+  elsif  player_card_value(session[:player_cards]) < player_card_value(session[:dealer_cards]) && player_card_value(session[:dealer_cards]) > BLACKJACK_AMOUNT && session[:hit_or_stay] == "Stay"
     return @player_winner
   elsif player_card_value(session[:dealer_cards]) > BLACKJACK_AMOUNT  && player_card_value(session[:player_cards]) <= BLACKJACK_AMOUNT
     return @player_winner
@@ -103,8 +102,6 @@ def no_winner?
   if player_card_value(session[:player_cards]) == BLACKJACK_AMOUNT &&  player_card_value(session[:player_cards]) == player_card_value(session[:dealer_cards])
     return @no_winner
   elsif player_card_value(session[:player_cards]) == BLACKJACK_AMOUNT &&  player_card_value(session[:player_cards]) == player_card_value(session[:dealer_cards]) && session[:hit_or_stay] == "Stay" && player_card_value(session[:dealer_cards]) >= 17
-    return @tie
-  elsif player_card_value(session[:player_cards]) == player_card_value(session[:dealer_cards])  && player_card_value(session[:dealer_cards]) >=  DEALER_MIN
     return @tie
   end
 end
@@ -120,6 +117,16 @@ def player_busted?
   @player_busted = "<h1 class='hit'> #{session[:name]}, you busted!<br /></h1>"
   if player_card_value(session[:player_cards]) > BLACKJACK_AMOUNT
     return @player_busted
+  end
+end
+
+def current_pot_amount
+  if player_winner?
+    session[:player_pot_amount] = session[:player_pot_amount].to_i + session[:bet].to_i
+    @winner_message = "Congratulations you now have #{session[:player_pot_amount]} to play with."
+  elsif dealer_winner? || dealer_busted?  || player_busted?
+    session[:player_pot_amount] = session[:player_pot_amount].to_i - session[:bet].to_i
+    @winner_message = "You now have #{session[:player_pot_amount]} to play with."
   end
 end
 end
@@ -147,23 +154,42 @@ get '/name' do
 end
 
 post '/name' do
- session[:name] = params[:name]
- @last_player = session[:name]
- if session[:name] == nil
-  session[:name] = @last_player
+  if params[:name].empty?
+    @error = "Name is required"
+    halt erb(:name)
+  end
   session[:name] = params[:name]
-end
-session[:bet_amount] = "500"
-redirect '/bet'
+  @last_player = session[:name]
+  if session[:name] == nil
+    session[:name] = @last_player
+    session[:name] = params[:name]
+  end
+  session[:player_pot_amount] = INITIAL_POT_AMOUNT
+  session[:player_pot_amount].to_i
+  redirect '/bet'
 end
 
 get '/bet' do
+  session[:bet] = nil
   erb :bet
 end
 
 post '/bet' do
-  session[:bet] = params[:bet]
-  redirect '/game'
+  if params[:bet].empty? || params[:bet].to_i > session[:player_pot_amount].to_i
+    begin
+      if params[:bet].empty?
+        @error = "Please place your bet."
+        halt erb(:bet)
+      else
+        @error = "Your bet must be less than $#{session[:player_pot_amount]}."
+        halt erb(:bet)
+      end
+    end until params[:bet].empty? > "0" || params[:bet].to_i > session[:player_pot_amount].to_i
+  else
+    session[:bet] = params[:bet]
+    session[:bet].to_i
+    redirect '/game'
+  end
 end
 
 get '/game' do
@@ -183,13 +209,15 @@ end
 
 post '/game/player/stay' do
   session[:hit_or_stay] = params[:hit_or_stay]
-  @show_player_hit_stay  = true
+  @show_player_hit_stay  = false
   @show_dealer_hit_stay = true
   erb :game, layout: false
 end
 
 post '/game/dealer/hit' do
-session[:hit_or_stay] = params[:hit_or_stay]
+  @show_player_hit_stay  = false
+  @show_dealer_hit_stay = true
+  session[:hit_or_stay] = params[:hit_or_stay]
   session[:dealer_cards] << session[:deck].pop
   erb :game, layout: false
 end

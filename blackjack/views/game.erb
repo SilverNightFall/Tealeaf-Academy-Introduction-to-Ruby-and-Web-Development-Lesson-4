@@ -5,6 +5,7 @@
 		<%= no_winner? %>
 		<%= dealer_busted? %>
 		<%= player_busted? %>
+      <%=current_pot_amount %>
 		<% if winner? %>
 		<% if @new_player_intro %>
 		<h1 class='hit'>Welcome <%= session[:name] %>, would you like to hit or stay?</h1>
@@ -30,6 +31,7 @@
 				<% session[:player_cards].each do |card| %>
 				<%= show_cards(card) %>
 				<% end %>
+				<p class="player_bid"><%= session[:name] %>'s bet: $<%= session[:bet] %></p>
 				<p class="total_titles"><%= session[:name] %>'s Total:
 					<%= player_card_value(session[:player_cards]) %>
 				</p>
@@ -86,7 +88,7 @@
 			<% end %>
 		</div>
 	</div>
-	<% if @play_again %>
+	<% if session[:player_pot_amount].to_i > 0 && (player_winner?  || dealer_winner? || no_winner?  || dealer_busted?  || player_busted?) %>
 			<div class="another_round">
 				<h2 class="round">
 					Would you like to play another round of Blackjack?

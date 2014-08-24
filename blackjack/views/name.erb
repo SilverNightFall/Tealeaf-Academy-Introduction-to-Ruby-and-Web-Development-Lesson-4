@@ -1,6 +1,11 @@
 <h1 class="hit">
   What is your name?
 </h1>
+<%if @error %>
+    <div class="alert alert-box">
+      <%=@error%>
+    </div>
+    <% end %>
 <form id="name" action='/name' method='post' class="navbar-form navbar-center">
   <div class="form-group">
     <label for="Name">
